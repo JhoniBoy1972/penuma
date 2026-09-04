@@ -1,0 +1,4452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PENUMA — Learn. Think. Create.</title>
+
+  <meta name="description"
+    content="Penuma — learning, ideas, creativity, conversations, technology and growth.">
+
+  <link rel="icon"
+    href="Assets/Penuma_Final_Logo_Icon_file.ico"
+    type="image/x-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+
+  <!-- =========================================================
+       TAWK.TO
+  ========================================================= -->
+
+
+  <style>
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #050507;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    ::selection {
+      background: #1769ff;
+      color: white;
+    }
+
+
+    /* =========================================================
+       VARIABLES
+    ========================================================= */
+
+    :root {
+      --blue: #1769ff;
+      --blue2: #4d8dff;
+      --blue3: #7eaeff;
+      --dark: #050507;
+      --dark2: #08090d;
+      --gray: #8a8c96;
+      --line: rgba(255, 255, 255, .10);
+    }
+
+
+    /* =========================================================
+       SCROLL PROGRESS
+    ========================================================= */
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        #1769ff,
+        #6da0ff,
+        #1769ff
+      );
+      z-index: 100000;
+      box-shadow: 0 0 12px rgba(23, 105, 255, .8);
+    }
+
+
+    /* =========================================================
+       CUSTOM CURSOR
+    ========================================================= */
+
+    .cursor {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+      transition:
+        width .25s ease,
+        height .25s ease;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, .45);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition:
+        width .35s cubic-bezier(.22, 1, .36, 1),
+        height .35s cubic-bezier(.22, 1, .36, 1),
+        border-color .3s ease;
+    }
+
+    .cursor.active {
+      width: 5px;
+      height: 5px;
+    }
+
+    .cursor-ring.active {
+      width: 70px;
+      height: 70px;
+      border-color: #1769ff;
+    }
+
+
+    /* =========================================================
+       NOISE
+    ========================================================= */
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: .035;
+
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+    }
+
+
+    /* =========================================================
+       LOADER
+    ========================================================= */
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: #050507;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      transition:
+        opacity .8s ease,
+        visibility .8s ease;
+    }
+
+    .loader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 900;
+      letter-spacing: -.08em;
+    }
+
+    .loader-logo span {
+      color: #1769ff;
+    }
+
+    .loader-sub {
+      margin-top: 15px;
+      font-size: .55rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .loader-line {
+      margin-top: 25px;
+      width: 180px;
+      height: 1px;
+      background: #222;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-line::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0%;
+      height: 100%;
+      background: #1769ff;
+      animation: loadLine 1.5s ease forwards;
+    }
+
+    @keyframes loadLine {
+      to {
+        width: 100%;
+      }
+    }
+
+
+    /* =========================================================
+       NAV
+    ========================================================= */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 82px;
+      z-index: 500;
+
+      transition:
+    background .4s ease,
+    border-color .4s ease,
+    transform .4s ease;
+    }
+
+    header.scrolled {
+      background: rgba(5, 5, 7, .78);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      height: 100%;
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: -.07em;
+    }
+
+    .logo span {
+      color: #1769ff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: #888;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #1769ff;
+      transition: .35s ease;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-btn {
+      padding: 12px 20px;
+      border: 1px solid rgba(255, 255, 255, .25);
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      transition: .3s ease;
+    }
+
+    .nav-btn:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .menu {
+      display: none;
+      font-size: 24px;
+      background: none;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: #050507;
+      z-index: 450;
+      padding: 120px 30px 30px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      transform: translateY(-100%);
+      transition:
+        transform .7s cubic-bezier(.77, 0, .18, 1);
+    }
+
+    .mobile-menu.open {
+      transform: translateY(0);
+    }
+
+    .mobile-menu a {
+      font-size: clamp(2.3rem, 8vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -.06em;
+      padding: 15px 0;
+      border-bottom: 1px solid #18191e;
+      transition: .3s ease;
+    }
+
+    .mobile-menu a:hover {
+      color: #1769ff;
+      padding-left: 15px;
+    }
+
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, .035) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, .035) 1px,
+          transparent 1px
+        );
+
+      background-size: 80px 80px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 90%
+        );
+    }
+
+    .glow {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(23, 105, 255, .20),
+          transparent 65%
+        );
+
+      filter: blur(30px);
+      right: -180px;
+      top: -150px;
+
+      animation:
+        floatGlow 8s ease-in-out infinite alternate;
+    }
+
+    .glow2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(55, 120, 255, .13),
+          transparent 65%
+        );
+
+      filter: blur(35px);
+      left: -200px;
+      bottom: -150px;
+
+      animation:
+        floatGlow 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatGlow {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(50px, 40px) scale(1.15);
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1400px;
+      margin: auto;
+      padding: 150px 35px 100px;
+    }
+
+    .hero-small {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      color: #777;
+
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .hero-small::before {
+      content: "";
+      width: 45px;
+      height: 1px;
+      background: #1769ff;
+    }
+
+    .hero-title {
+      margin-top: 35px;
+      font-size: clamp(5rem, 13vw, 12rem);
+      line-height: .78;
+      font-weight: 900;
+      letter-spacing: -.09em;
+      max-width: 1200px;
+    }
+
+    .hero-title .stroke {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .55);
+    }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 70px;
+      gap: 40px;
+    }
+
+    .hero-description {
+      max-width: 450px;
+      font-size: .9rem;
+      line-height: 1.9;
+      color: #85868f;
+    }
+
+    .hero-description strong {
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+    }
+
+    .circle-arrow {
+      width: 55px;
+      height: 55px;
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 20px;
+      transition: .4s ease;
+    }
+
+    .hero-cta:hover .circle-arrow {
+      background: #1769ff;
+      border-color: #1769ff;
+      transform: rotate(45deg);
+    }
+
+
+    /* =========================================================
+       HERO FLOATING P
+    ========================================================= */
+
+    .hero-p {
+      position: absolute;
+      right: 8%;
+      bottom: 12%;
+
+      font-size: clamp(10rem, 25vw, 30rem);
+      font-weight: 900;
+      line-height: .7;
+      letter-spacing: -.14em;
+
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .035);
+
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
+
+      animation:
+        heroPFloat 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroPFloat {
+      from {
+        transform: translateY(20px) rotate(-3deg);
+      }
+
+      to {
+        transform: translateY(-30px) rotate(3deg);
+      }
+    }
+
+
+    /* =========================================================
+       ROTATING ORBIT
+    ========================================================= */
+
+    .orbit {
+      position: absolute;
+      right: 7%;
+      top: 27%;
+      width: 280px;
+      height: 280px;
+
+      border: 1px solid rgba(255, 255, 255, .10);
+      border-radius: 50%;
+
+      animation:
+        spin 25s linear infinite;
+
+      z-index: 2;
+    }
+
+    .orbit::before {
+      content: "";
+      position: absolute;
+      inset: 25px;
+
+      border: 1px solid rgba(23, 105, 255, .3);
+      border-radius: 50%;
+    }
+
+    .orbit::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+
+      background: #1769ff;
+      border-radius: 50%;
+
+      top: -4px;
+      left: 50%;
+
+      box-shadow:
+        0 0 20px #1769ff,
+        0 0 60px #1769ff;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .orbit-text {
+      position: absolute;
+      right: calc(7% + 92px);
+      top: calc(27% + 112px);
+
+      z-index: 3;
+
+      font-size: .55rem;
+      letter-spacing: .3em;
+      color: #777;
+    }
+
+
+    /* =========================================================
+       HERO WORD ROTATION
+    ========================================================= */
+
+    .hero-word-wrap {
+      height: 1.05em;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      position: relative;
+    }
+
+    .hero-word-track {
+      display: block;
+
+      animation:
+        heroWord 10s cubic-bezier(.77, 0, .18, 1) infinite;
+    }
+
+    .hero-word-track span {
+      display: block;
+      height: 1.05em;
+    }
+
+    @keyframes heroWord {
+      0%,
+      16% {
+        transform: translateY(0);
+      }
+
+      20%,
+      36% {
+        transform: translateY(-1.05em);
+      }
+
+      40%,
+      56% {
+        transform: translateY(-2.10em);
+      }
+
+      60%,
+      76% {
+        transform: translateY(-3.15em);
+      }
+
+      80%,
+      96% {
+        transform: translateY(-4.20em);
+      }
+
+      100% {
+        transform: translateY(-5.25em);
+      }
+    }
+
+
+    /* =========================================================
+       MARQUEE
+    ========================================================= */
+
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+
+      padding: 25px 0;
+      white-space: nowrap;
+      background: #07080c;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+
+      animation:
+        marquee 28s linear infinite;
+    }
+
+    .marquee-item {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      color: #555;
+      margin: 0 35px;
+    }
+
+    .marquee-item b {
+      color: #fff;
+    }
+
+    .marquee-dot {
+      color: #1769ff;
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+
+    /* =========================================================
+       SECTIONS
+    ========================================================= */
+
+    .section {
+      padding: 160px 35px;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 25% 75%;
+      margin-bottom: 100px;
+    }
+
+    .section-number {
+      font-size: .65rem;
+      letter-spacing: .25em;
+      color: #555;
+    }
+
+    .section-number span {
+      color: #1769ff;
+    }
+
+    .section-heading {
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      font-weight: 700;
+      line-height: .9;
+      letter-spacing: -.075em;
+    }
+
+    .section-heading em {
+      font-family: Georgia, serif;
+      font-weight: 400;
+    }
+
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+
+    .about {
+      background: #08090d;
+    }
+
+    .about-text {
+      font-size: clamp(2rem, 4vw, 4.2rem);
+      line-height: 1.18;
+      letter-spacing: -.055em;
+      max-width: 1050px;
+    }
+
+    .about-text .fade {
+      color: #444;
+    }
+
+    .about-info {
+      margin-top: 80px;
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      border-top: 1px solid var(--line);
+    }
+
+    .info {
+      padding: 35px 25px 35px 0;
+      border-right: 1px solid var(--line);
+      transition: .4s ease;
+    }
+
+    .info:hover {
+      padding-left: 15px;
+    }
+
+    .info:last-child {
+      border-right: 0;
+      padding-left: 30px;
+    }
+
+    .info h3 {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .info p {
+      font-size: .85rem;
+      line-height: 1.8;
+      color: #888;
+    }
+
+
+    /* =========================================================
+       PENUMA MORE THAN ONE THING
+    ========================================================= */
+
+    .identity {
+      background: #050507;
+      min-height: 90vh;
+
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .identity-inner {
+      width: 100%;
+    }
+
+    .identity-label {
+      font-size: .65rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 50px;
+    }
+
+    .identity-title {
+      font-size: clamp(3.5rem, 8vw, 9rem);
+      line-height: .84;
+      letter-spacing: -.08em;
+      font-weight: 800;
+    }
+
+    .identity-title .muted {
+      color: #333;
+    }
+
+    .identity-changing {
+      height: 1em;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      position: relative;
+      color: #1769ff;
+    }
+
+    .identity-track {
+      display: block;
+
+      animation:
+        identityRotate 12s cubic-bezier(.77, 0, .18, 1) infinite;
+    }
+
+    .identity-track span {
+      display: block;
+      height: 1em;
+    }
+
+    @keyframes identityRotate {
+      0%,
+      12% {
+        transform: translateY(0);
+      }
+
+      16%,
+      28% {
+        transform: translateY(-1em);
+      }
+
+      32%,
+      44% {
+        transform: translateY(-2em);
+      }
+
+      48%,
+      60% {
+        transform: translateY(-3em);
+      }
+
+      64%,
+      76% {
+        transform: translateY(-4em);
+      }
+
+      80%,
+      92% {
+        transform: translateY(-5em);
+      }
+
+      100% {
+        transform: translateY(-6em);
+      }
+    }
+
+    .identity-description {
+      max-width: 650px;
+      margin-top: 60px;
+      font-size: 1rem;
+      line-height: 2;
+      color: #777;
+    }
+
+    .identity-description strong {
+      color: #fff;
+    }
+
+
+    /* =========================================================
+       CAPABILITY GRID
+    ========================================================= */
+
+    .capabilities {
+      margin-top: 90px;
+
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .capability {
+      padding: 30px 20px;
+      border-right: 1px solid var(--line);
+
+      position: relative;
+      overflow: hidden;
+      transition: .5s ease;
+    }
+
+    .capability:last-child {
+      border-right: 0;
+    }
+
+    .capability::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 100%;
+      height: 3px;
+
+      background: #1769ff;
+
+      transform: scaleX(0);
+      transform-origin: left;
+
+      transition: .5s ease;
+    }
+
+    .capability:hover {
+      background: #0b0d13;
+    }
+
+    .capability:hover::before {
+      transform: scaleX(1);
+    }
+
+    .capability-number {
+      font-size: .55rem;
+      color: #444;
+      letter-spacing: .2em;
+    }
+
+    .capability-icon {
+      font-size: 1.7rem;
+      margin: 35px 0;
+      color: #1769ff;
+    }
+
+    .capability h3 {
+      font-size: .85rem;
+      letter-spacing: -.02em;
+    }
+
+    .capability p {
+      font-size: .68rem;
+      line-height: 1.7;
+      color: #666;
+      margin-top: 12px;
+    }
+
+
+    /* =========================================================
+       SERVICES
+    ========================================================= */
+
+    .service {
+      border-top: 1px solid var(--line);
+      padding: 35px 0;
+
+      display: grid;
+      grid-template-columns: 80px 1fr 60px;
+      align-items: center;
+
+      transition:
+        padding .4s ease,
+        background .4s ease;
+    }
+
+    .service:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .service:hover {
+      padding-left: 25px;
+      padding-right: 25px;
+      background: #0c0e14;
+    }
+
+    .service-num {
+      font-size: .65rem;
+      color: #555;
+    }
+
+    .service-name {
+      font-size: clamp(1.5rem, 3vw, 3rem);
+      letter-spacing: -.05em;
+    }
+
+    .service-arrow {
+      font-size: 1.6rem;
+      color: #444;
+      transition: .4s ease;
+    }
+
+    .service:hover .service-arrow {
+      color: #1769ff;
+      transform: rotate(45deg);
+    }
+
+
+    /* =========================================================
+       CREATIVE PROJECT PANEL
+    ========================================================= */
+
+    .project-panel {
+      margin-top: 120px;
+
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 2px;
+
+      background: var(--line);
+    }
+
+    .project-main,
+    .project-side {
+      background: #08090d;
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-main {
+      padding: 60px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-main::before {
+      content: "";
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(23, 105, 255, .2),
+          transparent 65%
+        );
+
+      right: -150px;
+      bottom: -200px;
+      filter: blur(20px);
+    }
+
+    .project-kicker {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .25em;
+      color: #555;
+    }
+
+    .project-title {
+      font-size: clamp(3rem, 6vw, 7rem);
+      line-height: .85;
+      letter-spacing: -.08em;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .project-title span {
+      color: #1769ff;
+    }
+
+    .project-description {
+      max-width: 500px;
+      font-size: .8rem;
+      line-height: 1.9;
+      color: #777;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .project-side {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-item {
+      flex: 1;
+      padding: 35px;
+
+      border-bottom: 1px solid var(--line);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      transition: .4s ease;
+    }
+
+    .project-item:last-child {
+      border-bottom: 0;
+    }
+
+    .project-item:hover {
+      background: #0d1017;
+      padding-left: 50px;
+    }
+
+    .project-item h3 {
+      font-size: 1rem;
+    }
+
+    .project-item span {
+      font-size: 1.2rem;
+      color: #444;
+      transition: .4s ease;
+    }
+
+    .project-item:hover span {
+      color: #1769ff;
+      transform: rotate(45deg);
+    }
+
+
+    /* =========================================================
+       COURSES
+    ========================================================= */
+
+    .courses {
+      background: #f4f4f2;
+      color: #070708;
+    }
+
+    .courses .section-number {
+      color: #777;
+    }
+
+    .courses .section-heading {
+      color: #050507;
+    }
+
+    .course {
+      position: relative;
+
+      border-top: 1px solid rgba(0, 0, 0, .18);
+      padding: 40px 0;
+
+      display: grid;
+      grid-template-columns: 100px 1fr 200px;
+      align-items: center;
+
+      transition: .45s ease;
+    }
+
+    .course:last-child {
+      border-bottom: 1px solid rgba(0, 0, 0, .18);
+    }
+
+    .course:hover {
+      padding-left: 25px;
+      padding-right: 25px;
+      background: #fff;
+    }
+
+    .course-grade {
+      font-size: .65rem;
+      letter-spacing: .18em;
+      color: #777;
+    }
+
+    .course-title {
+      font-size: clamp(1.5rem, 3vw, 2.8rem);
+      font-weight: 500;
+      letter-spacing: -.055em;
+    }
+
+    .course-meta {
+      font-size: .7rem;
+      line-height: 1.7;
+      color: #777;
+      text-align: right;
+    }
+
+    .course-arrow {
+      position: absolute;
+      right: 0;
+
+      font-size: 1.2rem;
+      opacity: 0;
+
+      transition: .4s ease;
+    }
+
+    .course:hover .course-arrow {
+      opacity: 1;
+      right: 25px;
+      color: #1769ff;
+    }
+
+
+    /* =========================================================
+       COURSE HOVER LINE
+    ========================================================= */
+
+    .course::after {
+      content: "";
+      position: absolute;
+
+      left: 0;
+      bottom: -1px;
+
+      height: 2px;
+      width: 0;
+
+      background: #1769ff;
+
+      transition: .6s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .course:hover::after {
+      width: 100%;
+    }
+
+
+    /* =========================================================
+       PODCAST
+    ========================================================= */
+
+    .podcast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .podcast-card {
+      background: #0b0c10;
+      border: 1px solid var(--line);
+      overflow: hidden;
+
+      transition:
+        transform .5s cubic-bezier(.22, 1, .36, 1),
+        border-color .4s ease;
+    }
+
+    .podcast-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(23, 105, 255, .6);
+    }
+
+    .podcast-image-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .podcast-image {
+      width: 100%;
+      aspect-ratio: 1.35;
+      object-fit: cover;
+
+      filter: grayscale(100%);
+
+      transition:
+        filter .7s ease,
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .podcast-card:hover .podcast-image {
+      filter: grayscale(0%);
+      transform: scale(1.08);
+    }
+
+    .play {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+
+      background: white;
+      color: black;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition: .4s ease;
+    }
+
+    .podcast-card:hover .play {
+      background: #1769ff;
+      color: white;
+      transform: scale(1.12);
+    }
+
+    .podcast-info {
+      padding: 25px;
+    }
+
+    .episode {
+      font-size: .6rem;
+      letter-spacing: .2em;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    .podcast-title {
+      margin-top: 12px;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================================
+       RESOURCES
+    ========================================================= */
+
+    .resources {
+      background: #08090d;
+    }
+
+    .resource {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 20px;
+
+      padding: 30px 0;
+
+      border-top: 1px solid var(--line);
+
+      transition: .4s ease;
+    }
+
+    .resource:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .resource:hover {
+      padding-left: 20px;
+      background: #0c0e14;
+    }
+
+    .resource-icon {
+      width: 48px;
+      height: 48px;
+
+      border: 1px solid #333;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: .6rem;
+      letter-spacing: .1em;
+
+      transition: .4s ease;
+    }
+
+    .resource:hover .resource-icon {
+      border-color: #1769ff;
+      color: #1769ff;
+      transform: rotate(-5deg);
+    }
+
+    .resource-title {
+      font-size: 1rem;
+    }
+
+    .resource-desc {
+      font-size: .7rem;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .resource-buy {
+      border: 1px solid #333;
+      padding: 12px 18px;
+
+      font-size: .65rem;
+      letter-spacing: .15em;
+
+      transition: .3s ease;
+    }
+
+    .resource-buy:hover {
+      background: #1769ff;
+      border-color: #1769ff;
+    }
+
+
+    /* =========================================================
+       BIG CTA
+    ========================================================= */
+
+    .big-cta {
+      min-height: 75vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(23, 105, 255, .12),
+          transparent 45%
+        ),
+        #050507;
+
+      overflow: hidden;
+      position: relative;
+    }
+
+    .big-cta::before {
+      content: "";
+      position: absolute;
+
+      width: 700px;
+      height: 700px;
+
+      border: 1px solid rgba(23, 105, 255, .08);
+      border-radius: 50%;
+
+      animation:
+        ctaSpin 30s linear infinite;
+    }
+
+    .big-cta::after {
+      content: "";
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      border: 1px solid rgba(255, 255, 255, .04);
+      border-radius: 50%;
+
+      animation:
+        ctaSpin 20s linear infinite reverse;
+    }
+
+    @keyframes ctaSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-size: clamp(4rem, 11vw, 11rem);
+      line-height: .8;
+      letter-spacing: -.09em;
+      font-weight: 900;
+    }
+
+    .cta-title .outline {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .5);
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+
+      margin-top: 50px;
+      padding: 17px 25px;
+
+      border: 1px solid rgba(255, 255, 255, .25);
+
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+
+      transition: .4s ease;
+    }
+
+    .cta-button:hover {
+      background: #1769ff;
+      border-color: #1769ff;
+      transform: translateY(-5px);
+    }
+
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+
+    .contact {
+      background: #f4f4f2;
+      color: #050507;
+    }
+
+    .contact .section-number {
+      color: #777;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+    }
+
+    .contact-title {
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: .85;
+      letter-spacing: -.08em;
+    }
+
+    .contact-title em {
+      font-family: Georgia, serif;
+      font-weight: 400;
+    }
+
+    .contact-links {
+      margin-top: 60px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .contact-link {
+      font-size: .85rem;
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 7px;
+      transition: .3s ease;
+    }
+
+    .contact-link:hover {
+      border-color: #1769ff;
+      color: #1769ff;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .input {
+      border: 0;
+      border-bottom: 1px solid #bbb;
+      background: transparent;
+
+      padding: 18px 0;
+
+      font-family: inherit;
+      font-size: .9rem;
+
+      outline: none;
+      color: #000;
+    }
+
+    .input:focus {
+      border-color: #1769ff;
+    }
+
+    textarea.input {
+      resize: none;
+    }
+
+    .submit {
+      align-self: flex-start;
+
+      padding: 16px 25px;
+
+      background: #050507;
+      color: #fff;
+      border: 0;
+
+      font-size: .65rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      transition: .4s ease;
+    }
+
+    .submit:hover {
+      background: #1769ff;
+      transform: translateY(-4px);
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      background: #050507;
+      padding: 80px 35px 35px;
+    }
+
+    .footer-top {
+      max-width: 1400px;
+      margin: auto;
+
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 50px;
+
+      padding-bottom: 80px;
+    }
+
+    .footer-logo {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -.08em;
+    }
+
+    .footer-logo span {
+      color: #1769ff;
+    }
+
+    .footer-description {
+      margin-top: 20px;
+      max-width: 400px;
+
+      font-size: .75rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .footer-heading {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: .7rem;
+      color: #777;
+      transition: .3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #1769ff;
+      padding-left: 5px;
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: auto;
+
+      padding-top: 25px;
+
+      border-top: 1px solid var(--line);
+
+      display: flex;
+      justify-content: space-between;
+
+      font-size: .6rem;
+      color: #444;
+
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(70px);
+
+      transition:
+        opacity 1s cubic-bezier(.22, 1, .36, 1),
+        transform 1s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* =========================================================
+       STAGGER
+    ========================================================= */
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .stagger.visible > * {
+      opacity: 1;
+      transform: translateY(0);
+
+      transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .stagger.visible > *:nth-child(1) {
+      transition-delay: .05s;
+    }
+
+    .stagger.visible > *:nth-child(2) {
+      transition-delay: .12s;
+    }
+
+    .stagger.visible > *:nth-child(3) {
+      transition-delay: .19s;
+    }
+
+    .stagger.visible > *:nth-child(4) {
+      transition-delay: .26s;
+    }
+
+    .stagger.visible > *:nth-child(5) {
+      transition-delay: .33s;
+    }
+
+
+    /* =========================================================
+       IMAGE REVEAL
+    ========================================================= */
+
+    .image-reveal {
+      overflow: hidden;
+    }
+
+    .image-reveal img {
+      transform: scale(1.15);
+
+      transition:
+        transform 1.5s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .image-reveal.visible img {
+      transform: scale(1);
+    }
+
+
+    /* =========================================================
+       BLUE DOT
+    ========================================================= */
+
+    .blue-dot {
+      display: inline-block;
+
+      width: 7px;
+      height: 7px;
+
+      background: #1769ff;
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 10px #1769ff,
+        0 0 25px rgba(23, 105, 255, .7);
+
+      animation:
+        dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: .6;
+      }
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    /* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .capabilities {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .capability:nth-child(3) {
+        border-right: 0;
+    }
+
+    .capability:nth-child(4),
+    .capability:nth-child(5) {
+        border-top: 1px solid var(--line);
+    }
+
+    .project-panel {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    body {
+        cursor: auto;
+    }
+
+    .cursor,
+    .cursor-ring {
+        display: none;
+    }
+
+    .nav-links,
+    .nav-btn {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    .hero-content {
+        padding-top: 160px;
+    }
+
+    .hero-p {
+        font-size: 60vw;
+        right: -5%;
+        bottom: 10%;
+        opacity: .6;
+    }
+
+    .orbit,
+    .orbit-text {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: clamp(4rem, 17vw, 8rem);
+    }
+
+    .hero-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .section {
+        padding: 110px 22px;
+    }
+
+    .section-header {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 70px;
+    }
+
+    .about-info {
+        grid-template-columns: 1fr;
+    }
+
+    .info,
+    .info:last-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 25px 0;
+    }
+
+    .capabilities {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .capability {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .service {
+        grid-template-columns: 50px 1fr 30px;
+    }
+
+    .course {
+        grid-template-columns: 70px 1fr;
+        gap: 15px;
+    }
+
+    .course-meta {
+        text-align: left;
+        grid-column: 2;
+    }
+
+    .podcast-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resource {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .resource-buy {
+        grid-column: 2;
+        width: max-content;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 70px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-top > div:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .project-main {
+        padding: 40px 30px;
+        min-height: 450px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .nav {
+        padding: 0 20px;
+    }
+
+    .hero-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hero-title {
+        font-size: 21vw;
+    }
+
+    .hero-description {
+        font-size: .82rem;
+    }
+
+    .section-heading {
+        font-size: 3.4rem;
+    }
+
+    .about-text {
+        font-size: 1.8rem;
+    }
+
+    .identity-title {
+        font-size: 15vw;
+    }
+
+    .identity-description {
+        font-size: .85rem;
+    }
+
+    .capabilities {
+        grid-template-columns: 1fr;
+    }
+
+    .capability {
+        border-right: 0 !important;
+    }
+
+    .cta-title {
+        font-size: 19vw;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-top > div:first-child {
+        grid-column: auto;
+    }
+
+    /* MOBILE MENU */
+
+    .mobile-menu a {
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        padding: 15px 0;
+        border-bottom: 1px solid #18191e;
+        transition: .3s ease;
+    }
+
+    .project-title {
+        font-size: 17vw;
+    }
+
+    .project-main {
+        min-height: 420px;
+    }
+
+    .resource {
+        gap: 15px;
+    }
+
+    .resource-title {
+        font-size: .85rem;
+    }
+
+    .resource-buy {
+        font-size: .55rem;
+        padding: 10px 12px;
+    }
+
+}
+
+
+
+    /* =========================================================
+       REDUCED MOTION
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      * {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    
+    /* =========================================
+   DESKTOP — HIDE MOBILE MENU
+========================================= */
+@media (min-width: 601px) {
+  .mobile-menu {
+    display: none !important;
+  }
+
+  .mobile-toggle {
+    display: none !important;
+  }
+}
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SCROLL PROGRESS
+========================================================= -->
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div class="loader" id="loader">
+
+<div class="loader-logo">
+PENUMA<span>.</span>
+</div>
+
+<div class="loader-sub">
+Learn · Think · Create
+</div>
+
+<div class="loader-line"></div>
+
+</div>
+
+
+<!-- NOISE -->
+
+<div class="noise"></div>
+
+
+<!-- CURSOR -->
+
+<div class="cursor" id="cursor"></div>
+
+<div class="cursor-ring" id="cursorRing"></div>
+
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<header id="header">
+
+<div class="nav">
+
+<a href="#home" class="logo">
+PENUMA<span>.</span>
+</a>
+
+
+<nav class="nav-links">
+
+<a href="#about" class="nav-link">
+About
+</a>
+
+<a href="#explore" class="nav-link">
+Explore
+</a>
+
+<a href="#courses" class="nav-link">
+Learning
+</a>
+
+<a href="#podcast" class="nav-link">
+Podcast
+</a>
+
+<a href="#resources" class="nav-link">
+Resources
+</a>
+
+<a href="#contact" class="nav-link">
+Contact
+</a>
+
+</nav>
+
+
+<a href="#contact" class="nav-btn magnetic">
+Let's Talk
+</a>
+
+
+<button class="menu" id="menuBtn">
+☰
+</button>
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+
+<div class="mobile-menu" id="mobileMenu">
+
+<a href="#home">
+Home
+</a>
+
+<a href="#about">
+About
+</a>
+
+<a href="#explore">
+Explore
+</a>
+
+<a href="#courses">
+Learning
+</a>
+
+<a href="#podcast">
+Podcast
+</a>
+
+<a href="#resources">
+Resources
+</a>
+
+<a href="#contact">
+Contact
+</a>
+
+</div>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<main id="home">
+
+<section class="hero">
+
+<div class="hero-grid"></div>
+
+<div class="glow"></div>
+
+<div class="glow2"></div>
+
+
+<div class="hero-p">
+P
+</div>
+
+
+<div class="orbit"></div>
+
+<div class="orbit-text">
+IDEAS • LEARNING • GROWTH
+</div>
+
+
+<div class="hero-content">
+
+
+<div class="hero-small reveal">
+
+AN INDEPENDENT PLATFORM FOR IDEAS
+
+<span class="blue-dot"></span>
+
+</div>
+
+
+<h1 class="hero-title reveal">
+
+THINK
+
+<br>
+
+<span class="stroke">
+
+BEYOND.
+
+</span>
+
+</h1>
+
+
+<div class="hero-bottom reveal">
+
+
+<p class="hero-description">
+
+<strong>Penuma</strong> is a space for
+learning, creativity, business,
+conversations and ideas.
+
+A place to explore what we know,
+question what we don't,
+and build something better.
+
+</p>
+
+
+<a href="#about"
+class="hero-cta magnetic">
+
+EXPLORE PENUMA
+
+<span class="circle-arrow">
+↘
+</span>
+
+</a>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MARQUEE
+========================================================= -->
+
+<div class="marquee">
+
+<div class="marquee-track">
+
+<div class="marquee-item">
+<b>LEARN</b>
+<span class="marquee-dot"> • </span>
+THINK
+</div>
+
+<div class="marquee-item">
+CREATE
+<span class="marquee-dot"> • </span>
+<b>EXPLORE</b>
+</div>
+
+<div class="marquee-item">
+QUESTION
+<span class="marquee-dot"> • </span>
+GROW
+</div>
+
+<div class="marquee-item">
+<b>LEARN</b>
+<span class="marquee-dot"> • </span>
+THINK
+</div>
+
+<div class="marquee-item">
+CREATE
+<span class="marquee-dot"> • </span>
+<b>EXPLORE</b>
+</div>
+
+<div class="marquee-item">
+QUESTION
+<span class="marquee-dot"> • </span>
+GROW
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section class="section about" id="about">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+<span>01</span> / ABOUT
+</div>
+
+<h2 class="section-heading">
+
+More than
+
+<br>
+
+<em>education.</em>
+
+</h2>
+
+</div>
+
+
+<div class="about-text reveal">
+
+Penuma exists to make learning,
+thinking and creating feel
+
+<span class="fade">
+more human.
+</span>
+
+</div>
+
+
+<div class="about-info reveal">
+
+
+<div class="info">
+
+<h3>
+Learning
+</h3>
+
+<p>
+Academic learning designed around
+understanding, practice and progress.
+</p>
+
+</div>
+
+
+<div class="info">
+
+<h3>
+Ideas
+</h3>
+
+<p>
+Conversations and perspectives that
+challenge the obvious and encourage
+curiosity.
+</p>
+
+</div>
+
+
+<div class="info">
+
+<h3>
+Creation
+</h3>
+
+<p>
+Exploring business, technology,
+automation and creative projects.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PENUMA IS MORE THAN ONE THING
+========================================================= -->
+
+<section class="section identity">
+
+<div class="container identity-inner">
+
+
+<div class="identity-label reveal">
+
+02 / THE PENUMA IDEA
+</div>
+
+
+<h2 class="identity-title reveal">
+
+PENUMA
+
+<br>
+
+IS MORE THAN
+
+<br>
+
+<span class="identity-changing">
+
+<span class="identity-track">
+
+<span>EDUCATION.</span>
+
+<span>IDEAS.</span>
+
+<span>CREATIVITY.</span>
+
+<span>TECHNOLOGY.</span>
+
+<span>MEDIA.</span>
+
+<span>GROWTH.</span>
+
+<span>EDUCATION.</span>
+
+</span>
+
+</span>
+
+</h2>
+
+
+<p class="identity-description reveal">
+
+<strong>Penuma isn't built around one category.</strong>
+
+It's a growing platform where education,
+business, technology, creativity,
+conversations and ideas meet.
+
+The goal is simple:
+
+<strong>learn something, question something,
+create something, and keep moving.</strong>
+
+</p>
+
+
+<div class="capabilities stagger reveal">
+
+
+<div class="capability">
+
+<div class="capability-number">
+01
+</div>
+
+<div class="capability-icon">
+↗
+</div>
+
+<h3>
+Education
+</h3>
+
+<p>
+Courses, academic support and
+structured learning.
+</p>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-number">
+02
+</div>
+
+<div class="capability-icon">
+◎
+</div>
+
+<h3>
+Ideas
+</h3>
+
+<p>
+Conversations, perspectives
+and deeper thinking.
+</p>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-number">
+03
+</div>
+
+<div class="capability-icon">
+◇
+</div>
+
+<h3>
+Technology
+</h3>
+
+<p>
+Digital tools, automation and
+experimentation.
+</p>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-number">
+04
+</div>
+
+<div class="capability-icon">
+△
+</div>
+
+<h3>
+Creative
+</h3>
+
+<p>
+Projects, design, media and
+new ways to communicate.
+</p>
+
+</div>
+
+
+<div class="capability">
+
+<div class="capability-number">
+05
+</div>
+
+<div class="capability-icon">
++
+</div>
+
+<h3>
+Growth
+</h3>
+
+<p>
+Building skills, confidence
+and better ideas.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     EXPLORE
+========================================================= -->
+
+<section class="section" id="explore">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+
+<span>03</span> / EXPLORE
+
+</div>
+
+<h2 class="section-heading">
+
+Different ways
+
+<br>
+
+to <em>discover.</em>
+
+</h2>
+
+</div>
+
+
+<div class="reveal">
+
+
+<a href="#courses" class="service">
+
+<div class="service-num">
+01
+</div>
+
+<div class="service-name">
+Education & Learning
+</div>
+
+<div class="service-arrow">
+↗
+</div>
+
+</a>
+
+
+<a href="#podcast" class="service">
+
+<div class="service-num">
+02
+</div>
+
+<div class="service-name">
+Ideas & Conversations
+</div>
+
+<div class="service-arrow">
+↗
+</div>
+
+</a>
+
+
+<a href="#resources" class="service">
+
+<div class="service-num">
+03
+</div>
+
+<div class="service-name">
+Knowledge & Resources
+</div>
+
+<div class="service-arrow">
+↗
+</div>
+
+</a>
+
+
+<a href="#contact" class="service">
+
+<div class="service-num">
+04
+</div>
+
+<div class="service-name">
+Projects & Collaborations
+</div>
+
+<div class="service-arrow">
+↗
+</div>
+
+</a>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     CREATIVE PANEL
+========================================================= -->
+
+<div class="project-panel reveal">
+
+
+<div class="project-main">
+
+<div class="project-kicker">
+PENUMA / BEYOND THE CLASSROOM
+</div>
+
+
+<h3 class="project-title">
+
+LEARN.
+
+<br>
+
+BUILD.
+
+<br>
+
+<span>EXPLORE.</span>
+
+</h3>
+
+
+<p class="project-description">
+
+Penuma is designed to evolve.
+
+From academic learning to digital
+projects, business ideas, automation,
+media and conversations — the platform
+can grow with the people using it.
+
+</p>
+
+</div>
+
+
+<div class="project-side">
+
+
+<div class="project-item">
+
+<h3>
+Education
+</h3>
+
+<span>
+↗
+</span>
+
+</div>
+
+
+<div class="project-item">
+
+<h3>
+Business
+</h3>
+
+<span>
+↗
+</span>
+
+</div>
+
+
+<div class="project-item">
+
+<h3>
+Technology
+</h3>
+
+<span>
+↗
+</span>
+
+</div>
+
+
+<div class="project-item">
+
+<h3>
+Creative Projects
+</h3>
+
+<span>
+↗
+</span>
+
+</div>
+
+
+<div class="project-item">
+
+<h3>
+Media & Ideas
+</h3>
+
+<span>
+↗
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COURSES
+========================================================= -->
+
+<section class="section courses" id="courses">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+
+<span>04</span> / LEARNING
+
+</div>
+
+<h2 class="section-heading">
+
+Learn
+
+<br>
+
+<em>better.</em>
+
+</h2>
+
+</div>
+
+
+<div class="reveal">
+
+
+<a
+href="https://docs.google.com/forms/d/e/1FAIpQLSeJZYMUUq5a2va6gAc7V6KZevDsXKH6cTGv7hmOyXbUvLbrxw/viewform?usp=send_form"
+target="_blank"
+class="course"
+>
+
+<div class="course-grade">
+GRADE 10
+</div>
+
+<div class="course-title">
+Business Studies & Accounting
+</div>
+
+<div class="course-meta">
+Private / Group
+<br>
+Physical / Online
+</div>
+
+<div class="course-arrow">
+↗
+</div>
+
+</a>
+
+
+<a
+href="https://docs.google.com/forms/d/e/1FAIpQLSeJZYMUUq5a2va6gAc7V6KZevDsXKH6cTGv7hmOyXbUvLbrxw/viewform?usp=send_form"
+target="_blank"
+class="course"
+>
+
+<div class="course-grade">
+GRADE 11
+</div>
+
+<div class="course-title">
+Business Studies & Accounting
+</div>
+
+<div class="course-meta">
+Private / Group
+<br>
+Physical / Online
+</div>
+
+<div class="course-arrow">
+↗
+</div>
+
+</a>
+
+
+<a
+href="https://docs.google.com/forms/d/e/1FAIpQLSeJZYMUUq5a2va6gAc7V6KZevDsXKH6cTGv7hmOyXbUvLbrxw/viewform?usp=send_form"
+target="_blank"
+class="course"
+>
+
+<div class="course-grade">
+GRADE 12
+</div>
+
+<div class="course-title">
+Business Studies
+</div>
+
+<div class="course-meta">
+Private / Group
+<br>
+Online
+</div>
+
+<div class="course-arrow">
+↗
+</div>
+
+</a>
+
+
+<a
+href="https://docs.google.com/forms/d/e/1FAIpQLSeJZYMUUq5a2va6gAc7V6KZevDsXKH6cTGv7hmOyXbUvLbrxw/viewform?usp=send_form"
+target="_blank"
+class="course"
+>
+
+<div class="course-grade">
+GRADE 13
+</div>
+
+<div class="course-title">
+Business Studies
+</div>
+
+<div class="course-meta">
+Private / Group
+<br>
+Online
+</div>
+
+<div class="course-arrow">
+↗
+</div>
+
+</a>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PODCAST
+========================================================= -->
+
+<section class="section" id="podcast">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+
+<span>05</span> / PODCAST
+
+</div>
+
+<h2 class="section-heading">
+
+Ideas worth
+
+<br>
+
+<em>hearing.</em>
+
+</h2>
+
+</div>
+
+
+<div class="podcast-grid">
+
+
+<a
+href="https://www.youtube.com/watch?v=Q8NslSrXRQo&t=15s&ab_channel=UncommonPodcast%28TheDeepDive%29byPenuma"
+target="_blank"
+class="podcast-card reveal"
+>
+
+<div class="podcast-image-wrap">
+
+<img
+src="Assets/Latest Podcast 1.jpg"
+class="podcast-image"
+alt="Podcast Episode 1"
+>
+
+<div class="play">
+▶
+</div>
+
+</div>
+
+<div class="podcast-info">
+
+<div class="episode">
+Episode 01
+</div>
+
+<div class="podcast-title">
+
+Navigating Stakeholder Conflict —
+Through a Different Lens
+
+</div>
+
+</div>
+
+</a>
+
+
+
+<a
+href="https://www.youtube.com/watch?v=2DAg1oNdlXM&ab_channel=UncommonPodcast%28TheDeepDive%29byPenuma"
+target="_blank"
+class="podcast-card reveal"
+>
+
+<div class="podcast-image-wrap">
+
+<img
+src="Assets/Latest podcast 2.png"
+class="podcast-image"
+alt="Podcast Episode 2"
+>
+
+<div class="play">
+▶
+</div>
+
+</div>
+
+<div class="podcast-info">
+
+<div class="episode">
+Episode 02
+</div>
+
+<div class="podcast-title">
+
+How Businesses Shape Our Desires —
+Beyond Marketing
+
+</div>
+
+</div>
+
+</a>
+
+
+
+<a
+href="https://youtu.be/R6w2G-Uglgg"
+target="_blank"
+class="podcast-card reveal"
+>
+
+<div class="podcast-image-wrap">
+
+<img
+src="Assets/Latest 3 podcast.png"
+class="podcast-image"
+alt="Podcast Episode 3"
+>
+
+<div class="play">
+▶
+</div>
+
+</div>
+
+<div class="podcast-info">
+
+<div class="episode">
+Episode 03
+</div>
+
+<div class="podcast-title">
+
+Decoding the Customer —
+What Really Drives Decisions
+
+</div>
+
+</div>
+
+</a>
+
+
+</div>
+
+
+
+<div style="margin-top:50px" class="reveal">
+
+<a
+href="https://www.youtube.com/@Penuma-b5c"
+target="_blank"
+class="hero-cta magnetic"
+>
+
+WATCH ALL EPISODES
+
+<span class="circle-arrow">
+↗
+</span>
+
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     RESOURCES
+========================================================= -->
+
+<section class="section resources" id="resources">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+
+<span>06</span> / RESOURCES
+
+</div>
+
+<h2 class="section-heading">
+
+Tools for
+
+<br>
+
+<em>progress.</em>
+
+</h2>
+
+</div>
+
+
+<div class="reveal">
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 1 — Part 1
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 1
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/o1d638a17"
+target="_blank"
+class="resource-buy"
+>
+RS 400 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 1 — Part 2
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 1
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/o6a64ba81"
+target="_blank"
+class="resource-buy"
+>
+RS 430 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 2 — Part 2
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 2
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/of4002f22"
+target="_blank"
+class="resource-buy"
+>
+RS 450 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 3 — Part 1
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 3
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/o4bd7c448"
+target="_blank"
+class="resource-buy"
+>
+RS 400 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 12 Mock Exam 1 — Part 2
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 1
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/o624d5e72"
+target="_blank"
+class="resource-buy"
+>
+RS 450 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 4 — Part 1
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 4
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/ofdeba1e6"
+target="_blank"
+class="resource-buy"
+>
+RS 420 ↗
+</a>
+
+</div>
+
+
+
+<div class="resource">
+
+<div class="resource-icon">
+PDF
+</div>
+
+<div>
+
+<div class="resource-title">
+Grade 13 Mock Exam 4 — Part 2
+</div>
+
+<div class="resource-desc">
+Official Mock Exam 4
+</div>
+
+</div>
+
+<a
+href="https://payhere.lk/pay/o8aec9170"
+target="_blank"
+class="resource-buy"
+>
+RS 470 ↗
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     BIG CTA
+========================================================= -->
+
+<section class="big-cta">
+
+<div class="cta-content reveal">
+
+<h2 class="cta-title">
+
+KEEP
+
+<br>
+
+<span class="outline">
+EXPLORING.
+</span>
+
+</h2>
+
+
+<a
+href="#contact"
+class="cta-button magnetic"
+>
+
+START A CONVERSATION
+
+<span>
+↗
+</span>
+
+</a>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section class="section contact" id="contact">
+
+<div class="container">
+
+
+<div class="section-header reveal">
+
+<div class="section-number">
+
+<span>07</span> / CONTACT
+
+</div>
+
+<h2 class="section-heading">
+
+Let's make
+
+<br>
+
+<em>something.</em>
+
+</h2>
+
+</div>
+
+
+<div class="contact-grid">
+
+
+<div class="reveal">
+
+
+<div class="contact-title">
+
+SAY
+
+<br>
+
+HELLO<span style="color:#1769ff">.</span>
+
+</div>
+
+
+<div class="contact-links">
+
+
+<a
+href="mailto:penumaorg@gmail.com"
+class="contact-link"
+>
+
+penumaorg@gmail.com
+
+</a>
+
+
+<a
+href="tel:+94743614205"
+class="contact-link"
+>
+
++94 74 361 4205
+
+</a>
+
+
+<a
+href="https://wa.me/94743614205?text=Hello+Penuma+Team%2C+I'm+interested+in+your+courses."
+target="_blank"
+class="contact-link"
+>
+
+WhatsApp ↗
+
+</a>
+
+
+</div>
+
+</div>
+
+
+
+<div class="reveal">
+
+
+<form
+action="https://api.web3forms.com/submit"
+method="POST"
+class="contact-form"
+>
+
+
+<input
+type="hidden"
+name="access_key"
+value="8635e57c-6803-46ea-8b39-983c2f7bfc73"
+>
+
+
+<input
+type="checkbox"
+name="botcheck"
+style="display:none"
+>
+
+
+<input
+type="hidden"
+name="redirect"
+value="https://penumaweb.github.io/Penuma/thankyou.html"
+>
+
+
+<input
+class="input"
+type="text"
+name="name"
+placeholder="Your name"
+required
+>
+
+
+<input
+class="input"
+type="email"
+name="email"
+placeholder="Your email"
+required
+>
+
+
+<textarea
+class="input"
+name="message"
+rows="6"
+placeholder="Your message..."
+required
+></textarea>
+
+
+<button
+class="submit magnetic"
+type="submit"
+>
+
+Send Message →
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+<div class="footer-top">
+
+
+<div>
+
+<div class="footer-logo">
+
+PENUMA<span>.</span>
+
+</div>
+
+
+<p class="footer-description">
+
+A modern space for learning,
+ideas, creativity, conversations
+and growth.
+
+</p>
+
+</div>
+
+
+
+<div>
+
+<div class="footer-heading">
+Explore
+</div>
+
+
+<div class="footer-links">
+
+<a href="#home">
+Home
+</a>
+
+<a href="#about">
+About
+</a>
+
+<a href="#explore">
+Explore
+</a>
+
+<a href="#courses">
+Learning
+</a>
+
+<a href="#podcast">
+Podcast
+</a>
+
+<a href="#resources">
+Resources
+</a>
+
+</div>
+
+</div>
+
+
+
+<div>
+
+<div class="footer-heading">
+Connect
+</div>
+
+
+<div class="footer-links">
+
+<a
+href="https://www.youtube.com/@Penuma-b5c"
+target="_blank"
+>
+YouTube
+</a>
+
+
+<a
+href="https://wa.me/94743614205?text=Hello+Penuma+Team%2C+I'm+interested+in+your+courses."
+target="_blank"
+>
+WhatsApp
+</a>
+
+
+<a href="mailto:penumaorg@gmail.com">
+Email
+</a>
+
+
+<a href="/Terms_&_Policy.html">
+Terms & Policy
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="footer-bottom">
+
+<span>
+
+© 2025 PENUMA. ALL RIGHTS RESERVED.
+
+</span>
+
+
+<span>
+
+WEBSITE BY
+
+<a
+href="https://www.linkedin.com/in/jonathan-imalsh-33732b259/"
+target="_blank"
+style="color:#888"
+>
+
+JONATHAN IMALSH PERERA
+
+</a>
+
+</span>
+
+</div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+document
+.getElementById("loader")
+.classList.add("hide");
+
+},1200);
+
+});
+
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+const header =
+document.getElementById("header");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>50){
+
+header.classList.add("scrolled");
+
+}else{
+
+header.classList.remove("scrolled");
+
+}
+
+});
+
+
+
+/* =========================================================
+   SCROLL PROGRESS
+========================================================= */
+
+const scrollProgress =
+document.getElementById("scrollProgress");
+
+window.addEventListener("scroll",()=>{
+
+const scrollTop =
+window.scrollY;
+
+const height =
+document.documentElement.scrollHeight -
+window.innerHeight;
+
+const progress =
+(scrollTop / height) * 100;
+
+scrollProgress.style.width =
+progress + "%";
+
+});
+
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const mobileMenu =
+document.getElementById("mobileMenu");
+
+menuBtn.addEventListener("click",()=>{
+
+mobileMenu.classList.toggle("open");
+
+menuBtn.textContent =
+mobileMenu.classList.contains("open")
+? "✕"
+: "☰";
+
+});
+
+
+document
+.querySelectorAll(".mobile-menu a")
+.forEach(link=>{
+
+link.addEventListener("click",()=>{
+
+mobileMenu.classList.remove("open");
+
+menuBtn.textContent="☰";
+
+});
+
+});
+
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+const cursor =
+document.getElementById("cursor");
+
+const ring =
+document.getElementById("cursorRing");
+
+let mouseX=0;
+let mouseY=0;
+
+let ringX=0;
+let ringY=0;
+
+
+document.addEventListener("mousemove",(e)=>{
+
+mouseX=e.clientX;
+mouseY=e.clientY;
+
+cursor.style.left=mouseX+"px";
+cursor.style.top=mouseY+"px";
+
+});
+
+
+function animateCursor(){
+
+ringX +=
+(mouseX-ringX)*.15;
+
+ringY +=
+(mouseY-ringY)*.15;
+
+ring.style.left=ringX+"px";
+ring.style.top=ringY+"px";
+
+requestAnimationFrame(animateCursor);
+
+}
+
+animateCursor();
+
+
+
+document
+.querySelectorAll("a,button,.capability,.project-item")
+.forEach(el=>{
+
+el.addEventListener("mouseenter",()=>{
+
+cursor.classList.add("active");
+
+ring.classList.add("active");
+
+});
+
+
+el.addEventListener("mouseleave",()=>{
+
+cursor.classList.remove("active");
+
+ring.classList.remove("active");
+
+});
+
+});
+
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const observer =
+new IntersectionObserver(
+
+(entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("visible");
+
+}
+
+});
+
+},
+
+{
+threshold:.12
+}
+
+);
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(el=>{
+
+observer.observe(el);
+
+});
+
+
+
+/* =========================================================
+   MAGNETIC BUTTONS
+========================================================= */
+
+document
+.querySelectorAll(".magnetic")
+.forEach(button=>{
+
+button.addEventListener("mousemove",(e)=>{
+
+const rect =
+button.getBoundingClientRect();
+
+const x =
+e.clientX -
+rect.left -
+rect.width/2;
+
+const y =
+e.clientY -
+rect.top -
+rect.height/2;
+
+button.style.transform =
+`translate(${x*.12}px,${y*.12}px)`;
+
+});
+
+
+button.addEventListener("mouseleave",()=>{
+
+button.style.transform="";
+
+});
+
+});
+
+
+
+/* =========================================================
+   CARD TILT
+========================================================= */
+
+document
+.querySelectorAll(".podcast-card")
+.forEach(card=>{
+
+card.addEventListener("mousemove",(e)=>{
+
+if(window.innerWidth<=900)
+return;
+
+const rect =
+card.getBoundingClientRect();
+
+const x =
+e.clientX -
+rect.left;
+
+const y =
+e.clientY -
+rect.top;
+
+const rotateY =
+((x/rect.width)-.5)*8;
+
+const rotateX =
+((y/rect.height)-.5)*-8;
+
+card.style.transform =
+`perspective(900px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+translateY(-10px)`;
+
+});
+
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform="";
+
+});
+
+});
+
+
+
+/* =========================================================
+   HERO ORBIT PARALLAX
+========================================================= */
+
+window.addEventListener("scroll",()=>{
+
+const scroll =
+window.scrollY;
+
+const orbit =
+document.querySelector(".orbit");
+
+if(orbit){
+
+orbit.style.marginTop =
+(scroll*.08)+"px";
+
+}
+
+});
+
+
+
+/* =========================================================
+   MOUSE PARALLAX FOR HERO GLOW
+========================================================= */
+
+document.addEventListener("mousemove",(e)=>{
+
+if(window.innerWidth<=900)
+return;
+
+const x =
+(e.clientX/window.innerWidth-.5);
+
+const y =
+(e.clientY/window.innerHeight-.5);
+
+const glow =
+document.querySelector(".glow");
+
+const glow2 =
+document.querySelector(".glow2");
+
+if(glow){
+
+glow.style.transform =
+`translate(${x*35}px,${y*35}px)`;
+
+}
+
+if(glow2){
+
+glow2.style.transform =
+`translate(${x*-25}px,${y*-25}px)`;
+
+}
+
+});
+
+
+
+/* =========================================================
+   SMOOTH ACTIVE NAV
+========================================================= */
+
+const sections =
+document.querySelectorAll("main section[id]");
+
+const navItems =
+document.querySelectorAll(".nav-link");
+
+
+const navObserver =
+new IntersectionObserver(
+
+(entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+navItems.forEach(link=>{
+
+link.style.color="#888";
+
+});
+
+const active =
+document.querySelector(
+`.nav-link[href="#${entry.target.id}"]`
+);
+
+if(active){
+
+active.style.color="#fff";
+
+}
+
+}
+
+});
+
+},
+
+{
+threshold:.45
+}
+
+);
+
+
+sections.forEach(section=>{
+
+navObserver.observe(section);
+
+});
+
+
+
+/* =========================================================
+   HERO P PARALLAX
+========================================================= */
+
+window.addEventListener("mousemove",(e)=>{
+
+if(window.innerWidth<=900)
+return;
+
+const p =
+document.querySelector(".hero-p");
+
+if(!p)
+return;
+
+const x =
+(e.clientX/window.innerWidth-.5)*20;
+
+const y =
+(e.clientY/window.innerHeight-.5)*20;
+
+p.style.transform =
+`translate(${x}px,${y}px)`;
+
+});
+
+
+
+/* =========================================================
+   CURSOR BLUE TRAIL EFFECT
+========================================================= */
+
+let trailTimeout;
+
+document.addEventListener("mousemove",(e)=>{
+
+if(window.innerWidth<=900)
+return;
+
+clearTimeout(trailTimeout);
+
+trailTimeout =
+setTimeout(()=>{
+
+const dot =
+document.createElement("div");
+
+dot.style.position="fixed";
+
+dot.style.left=e.clientX+"px";
+
+dot.style.top=e.clientY+"px";
+
+dot.style.width="4px";
+
+dot.style.height="4px";
+
+dot.style.borderRadius="50%";
+
+dot.style.background="#1769ff";
+
+dot.style.pointerEvents="none";
+
+dot.style.zIndex="9997";
+
+dot.style.transform="translate(-50%,-50%)";
+
+dot.style.transition=
+"opacity .7s ease, transform .7s ease";
+
+document.body.appendChild(dot);
+
+requestAnimationFrame(()=>{
+
+dot.style.opacity="0";
+
+dot.style.transform=
+"translate(-50%,-50%) scale(4)";
+
+});
+
+setTimeout(()=>{
+
+dot.remove();
+
+},700);
+
+},25);
+
+});
+
+
+
+/* =========================================================
+   CLOUDFLARE TURNSTILE
+========================================================= */
+
+window.addEventListener("load",()=>{
+
+const script =
+document.createElement("script");
+
+script.src =
+"https://challenges.cloudflare.com/turnstile/v0/api.js";
+
+script.async=true;
+
+script.defer=true;
+
+document.body.appendChild(script);
+
+
+const widget =
+document.createElement("div");
+
+widget.className="cf-turnstile";
+
+widget.setAttribute(
+"data-sitekey",
+"0x4AAAAAABhyuH0IbwIc9iuV"
+);
+
+widget.setAttribute(
+"data-size",
+"invisible"
+);
+
+widget.setAttribute(
+"data-theme",
+"dark"
+);
+
+document.body.appendChild(widget);
+
+});
+
+
+</script>
+
+
+</body>
+</html>
